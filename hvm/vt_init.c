@@ -42,10 +42,22 @@ has_vmx(void)
 	uint32_t a, b, c, d;
 	uint64_t tmp;
 
-	panic("has_vmx not implemented!");
+	//panic("has_vmx not implemented!");
 	/* Ex1: Check whether CPU has vmx support */
 	/* hint: Intel Manual 3B: 19.6 DISCOVERING SUPPORT FOR VMX */
 	/* hint: cpuid() */
+	// Dongli-Begin
+	cpuid(1, &a, &b, &c, &d);
+	//ECX bit 5 is 1 for vmx extension
+	if(((c >> 5) & 0x1) == 1)
+	{
+		cprintf("[VMX] VMX Extension is supported.\n");
+	}
+	else
+	{
+		panic("[VMX] VMX Extension if NOT supported.");
+	}
+	// Dongli-End
 
 	/* 19.7 ENABLING AND ENTERING VMX OPERATION */
 	/* For Bochs users */
