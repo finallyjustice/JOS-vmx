@@ -55,7 +55,11 @@ GCCPREFIX := $(shell if i386-jos-elf-objdump -i 2>&1 | grep '^elf32-i386$$' >/de
 	echo "***" 1>&2; exit 1; fi)
 endif
 
-CC	:= $(GCCPREFIX)gcc -pipe -m32
+# Dongli-Begin
+# We should use gcc-4.4
+#CC	:= $(GCCPREFIX)gcc -pipe -m32
+CC	:= $(GCCPREFIX)gcc-4.4 -pipe -m32
+# Dongli-End
 GCC_LIB := $(shell $(CC) -print-libgcc-file-name)
 AS	:= $(GCCPREFIX)as
 AR	:= $(GCCPREFIX)ar

@@ -1,3 +1,19 @@
+Dongli's Update
+-----
+By default, the JOS-vmx cannot be compiled on my Ubuntu 12.04 64-bit with gcc-4.6.
+We should manually install gcc-4.4.
+  sudo apt-get install gcc-4.4
+  sudo apt-get install gcc-4.4-multilib
+
+CC should also be changed to gcc-4.4 in GNUmakefile.
+
+To play with bochs, a bochsrc is also provided. Just run:
+
+# bochs
+
+A deb of bochs is available at : http://www3.cs.stonybrook.edu/~porter/courses/cse591/s14/bochs_2.6.2-2_amd64.deb
+It is also available on my github at : https://github.com/finallyjustice/backup
+
 JOS
 -----
 JOS is a teaching OS using by MIT/Stanford/UCLA OS course. There are several hands-on exercises in it. 
