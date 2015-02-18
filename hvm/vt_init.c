@@ -170,8 +170,13 @@ set_vmcs_ctl(void)
 	u32 procbased_ctls_or, procbased_ctls_and;
 	u32 procbased_ctls2_or, procbased_ctls2_and;
 
-	u32 procbased_ctls;
-	u32 procbased_ctls2;
+	// Dongli-Change-Begin
+	//u32 procbased_ctls;
+	//u32 procbased_ctls2;
+
+	u32 procbased_ctls = 0x0;
+	u32 procbased_ctls2 = 0x0;
+	// Dongli-Change-End
 
 	u32 exit_ctls_or, exit_ctls_and;
 	u32 entry_ctls_or, entry_ctls_and;
@@ -190,10 +195,14 @@ set_vmcs_ctl(void)
 		     &entry_ctls_or, &entry_ctls_and);
 
 
-	panic("set_vmcs_ctl not implemented");
+	//panic("set_vmcs_ctl not implemented");
 	/* Ex4: enable EPT and Unrestricted Guest */
 	/* hint: 20.6.2 Processor-Based VM-Execution Controls */
 	/* hint: procbased_ctls and procbased_ctls2 */
+	// Dongli-Begin
+	procbased_ctls2_or |= SECONDARY_EXEC_ENABLE_EPT;
+	procbased_ctls2_or |= SECONDARY_EXEC_UNRESTRICTED_GUEST; 
+	// Dongli-End
 
 	/* bug fix */
 	procbased_ctls_or &= ~(VMCS_PROC_BASED_VMEXEC_CTL_CR3LOADEXIT_BIT | 
@@ -352,18 +361,38 @@ set_vmcs_guest_state()
 static void
 vmcs_setup(void)
 {
-	panic("vmcs_setup not implemented");
+	//panic("vmcs_setup not implemented");
 	/* Ex4: alloc VMCS region */
 	/* hint: refer to vmx_on() */
+	// Dongli-Begin
+	struct Page *vmcs_region_page;
+	if(page_alloc(&vmcs_region_page) != 0)
+		panic("Failed to allocate memory!");
+	// Dongli-End
 
 	/* Ex4: write a VMCS revision identifier */
 	/* hint: 20.2 FORMAT OF THE VMCS REGION */
 	/* hint: refer to vmx_on() */
+	// Dongli-Begin
+	// The VMCS only has two relevant fields that can be accessed at this time,
+	// a 4-byte VMCS revision ID located at byte offset 0 and a 4-byte abort
+	// indicator field located at byte offset 4. The rest of the VMCS is
+	// reserved for field data.
+	uint32_t low, high;
+	asm_rdmsr32(MSR_IA32_VMX_BASIC, &low, &high);
+	uint32_t vmcs_rev_id = low; // Bits 30:0, Bit 31 is always 0.
 
+	unsigned char* vmcs_region = (unsigned char *) page2kva(vmcs_region_page);
+	memcpy(vmcs_region, &vmcs_rev_id, sizeof(vmcs_rev_id));
+	// Dongli-End
 
 	/* Ex4: Load VMCS pointer */
 	/* hint: asm_vmclear() and asm_vmptrld() */
-
+	// Dongli-Begin
+	physaddr_t vmcs_phy_addr = PADDR(vmcs_region);
+	asm_vmclear((void *)vmcs_phy_addr);
+	asm_vmptrld((void *)vmcs_phy_addr);
+	// Dongli-End
 
 	/* initialize VMCS fields */
 	set_vmcs_ctl();
