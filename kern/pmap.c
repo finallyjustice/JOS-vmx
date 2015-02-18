@@ -420,15 +420,24 @@ page_init(void)
         // LAB 2 Ex2: Your code here.
         //  1) Mark page 0 as in use.
         if (i == 0) { //In fact, set the init value of i to 1 is a more efficient way
-            continue;
+			// Dongli-Begin
+			pages[i].pp_ref=1;
+			// Dongli-End
+			continue;
         }
         //  3) Then comes the IO hole [IOPHYSMEM, EXTPHYSMEM).
         else if (i >= PGNUM(IOPHYSMEM) && i < PGNUM(EXTPHYSMEM)) {
+			// Dongli-Begin
+			pages[i].pp_ref=1;
+			// Dongli-End
             continue;
         }
         //  4) Then extended memory [EXTPHYSMEM, ...).
         //     Some of it is in use, some is free.  Where is the kernel?
         else if (i >= PGNUM(PADDR(KERNBASE)) && i < PGNUM(PADDR(boot_alloc(0)))) {
+			// Dongli-Begin
+			pages[i].pp_ref=1;
+			// Dongli-End
             continue;
         }
 

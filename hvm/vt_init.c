@@ -127,23 +127,40 @@ vmx_on (void)
 	cr4 |= cr4_0;
 	asm_wrcr4 (cr4);
 
-	panic("vmx_on not implemented");
+	//panic("vmx_on not implemented");
 	/* Ex2: set VMXE bit of CR4 to enable VMX */
 	/* hint: CR4_VMXE_BIT */
-
+	// Dongli-Begin
+	cr4 = cr4 | CR4_VMXE_BIT;
+	asm_wrcr4 (cr4);
+	// Dongli-End
 
 	/* Ex2: alloc vmxon region */
 	/* hint: 20.10.4 VMXON Region */
 	/* hint: page_alloc */
-
-
+	// Dongli-Begin
+	struct Page *vmxon_region_page;
+	if(page_alloc(&vmxon_region_page) != 0)
+		panic("Failed to allocate memory!");
+	// Dongli-End
+	
 	/* Ex2: write a VMCS revision identifier */
 	/* hint: 20.10.4 VMXON Region */
 	/* hint: asm_rdmsr32 */
+	// Dongli-Begin
+	uint32_t low, high;
+	asm_rdmsr32(MSR_IA32_VMX_BASIC, &low, &high);
+	uint32_t vmcs_rev_id = low; // Bits 30:0, Bit 31 is always 0.
 
+	unsigned char* vmxon_region = (unsigned char *) page2kva(vmxon_region_page);
+	memcpy(vmxon_region, &vmcs_rev_id, sizeof(vmcs_rev_id));
+	// Dongli-End
 
 	/* Ex2: execute vmxon */
 	/* hint: asm_vmxon() */
+	// Dongli-Begin
+	asm_vmxon(vmxon_region);
+	// Dongli-End
 }
 
 static void 
