@@ -9,7 +9,7 @@ CC should also be changed to gcc-4.4 in GNUmakefile.
 
 To play with bochs, a bochsrc is also provided. Just run:
 
-# bochs
+ bochs
 
 A deb of bochs is available at : http://www3.cs.stonybrook.edu/~porter/courses/cse591/s14/bochs_2.6.2-2_amd64.deb
 It is also available on my github at : https://github.com/finallyjustice/backup
