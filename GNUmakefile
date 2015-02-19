@@ -120,6 +120,7 @@ bochs: $(IMAGES)
 # For deleting the build
 clean:
 	rm -rf $(OBJDIR) kern/programs.c
+	rm -rf bochs.out bochs.log
 
 realclean: clean
 	rm -rf lab$(LAB).tar.gz bochs.out bochs.log
