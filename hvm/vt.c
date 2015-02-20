@@ -100,6 +100,7 @@ do_cpuid (void)
 	/* Hint: vt_write_general_reg(), add_ip()           */
 	if (la == 0xFeedCafe) {
 		/* Add your code here. */
+		cprintf("[VMM] start the Ex5!\n");
 	}
 
 	ia = la;

@@ -116,23 +116,15 @@ ept_update_identity_table (
 			 *      --------------       -----------
 			 */
 			// Dongli-Begin
-			if(offset >= EPT_EACHTABLE_ENTRIES)
-				panic("offset is too large!");
-			
-			if(gfn >= GFN(0x04000000))
-				break;
-
-			if(i == offset)
-			{
-				gfn_t dst_gfn = gfn;
-				ept_entry.epte = ((u64 *)pt)[offset];
-				if(gfn >= GFN(0x00100000))
-					dst_gfn = dst_gfn-GFN(0x00100000)+GFN(0x04000000);
-				ept_entry.mfn = dst_gfn;
-				ept_entry.emt = p2m_type;
-				((u64 *)pt)[offset] = ept_entry.epte;
-				break;
-			}		
+			//if(gfn >= GFN(0x04000000))
+			//  break;
+			gfn_t dst_gfn = gfn+i;
+			ept_entry.epte = ((u64 *)pt)[i];
+			if(dst_gfn>=GFN(0x00100000) && dst_gfn<GFN(0x04000000))
+			//if(gfn>=GFN(0x00100000))
+				dst_gfn = dst_gfn-GFN(0x00100000)+GFN(0x04000000);
+			ept_entry.mfn = dst_gfn;
+			((u64 *)pt)[i] = ept_entry.epte | p2m_type;
 			// Dongli-End
 					
 		}
@@ -157,7 +149,7 @@ ept_update_identity_table (
 		memset(page2kva(sub_pt_page), 0, PAGESIZE);
 		sub_pt_phys = page2pa(sub_pt_page);
 		ept_entry.mfn = GFN(sub_pt_phys);
-		((u64 *)pt)[offset] = ept_entry.epte;
+		((u64 *)pt)[offset] = ept_entry.epte | p2m_type;
 		sub_pt_virt = (virt_t *)KADDR(sub_pt_phys);
 		// Dongli-End
   	} 

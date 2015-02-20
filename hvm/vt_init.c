@@ -55,7 +55,8 @@ has_vmx(void)
 	}
 	else
 	{
-		panic("[VMX] VMX Extension if NOT supported.");
+		cprintf("[VMX] VMX Extension is NOT supported.\n");
+		return false;
 	}
 	// Dongli-End
 
