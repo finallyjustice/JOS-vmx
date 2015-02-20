@@ -390,9 +390,9 @@ vmcs_setup(void)
 	/* Ex4: Load VMCS pointer */
 	/* hint: asm_vmclear() and asm_vmptrld() */
 	// Dongli-Begin
-	physaddr_t vmcs_phy_addr = PADDR(vmcs_region);
-	asm_vmclear((void *)vmcs_phy_addr);
-	asm_vmptrld((void *)vmcs_phy_addr);
+	u64 vmcs_phy_addr = PADDR(vmcs_region);
+	asm_vmclear(&vmcs_phy_addr);
+	asm_vmptrld(&vmcs_phy_addr);
 	// Dongli-End
 
 	/* initialize VMCS fields */

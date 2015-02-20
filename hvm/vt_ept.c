@@ -98,7 +98,7 @@ ept_update_identity_table (
 		u32 i = 0;
 		for(i = 0; i < EPT_EACHTABLE_ENTRIES; i++)
 		{
-			panic("ept_update_identity_table not implemented");
+			//panic("ept_update_identity_table not implemented");
 			/*Ex3: set the mapping and attributes for all entries*/
 			/* hint: 3B 25 EXTENDED PAGE TABLES (EPT) */
 			/* NOTE: set MTRR_TYPE_UNCACHE to the emt of read only memory address*/
@@ -146,7 +146,7 @@ ept_update_identity_table (
 
 	if (ept_entry.epte == 0 ) 
 	{
-		panic("ept_update_identity_table not implemented");
+		//panic("ept_update_identity_table not implemented");
 		/* Ex3: alloc page as sub page table and set the entry */
 		/* hint: page_alloc */
 		/* hint: ept_entry.mfn = GFN(sub_pt_phys); */
