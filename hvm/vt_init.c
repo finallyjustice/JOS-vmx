@@ -159,7 +159,8 @@ vmx_on (void)
 	/* Ex2: execute vmxon */
 	/* hint: asm_vmxon() */
 	// Dongli-Begin
-	asm_vmxon(vmxon_region);
+	u64 vmxon_phys_addr = page2pa(vmxon_region_page);
+	asm_vmxon(&vmxon_phys_addr);
 	// Dongli-End
 }
 
