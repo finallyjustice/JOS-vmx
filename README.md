@@ -14,6 +14,9 @@ To play with bochs, a bochsrc is also provided. Just run:
 A deb of bochs is available at : http://www3.cs.stonybrook.edu/~porter/courses/cse591/s14/bochs_2.6.2-2_amd64.deb
 It is also available on my github at : https://github.com/finallyjustice/backup
 
+The "master" branch is for the lab.
+The "study" branch is the solution.
+
 JOS
 -----
 JOS is a teaching OS using by MIT/Stanford/UCLA OS course. There are several hands-on exercises in it. 
