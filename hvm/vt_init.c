@@ -171,13 +171,8 @@ set_vmcs_ctl(void)
 	u32 procbased_ctls_or, procbased_ctls_and;
 	u32 procbased_ctls2_or, procbased_ctls2_and;
 
-	// Dongli-Change-Begin
-	//u32 procbased_ctls;
-	//u32 procbased_ctls2;
-
-	u32 procbased_ctls = 0x0;
-	u32 procbased_ctls2 = 0x0;
-	// Dongli-Change-End
+	u32 procbased_ctls;
+	u32 procbased_ctls2;
 
 	u32 exit_ctls_or, exit_ctls_and;
 	u32 entry_ctls_or, entry_ctls_and;
@@ -201,8 +196,15 @@ set_vmcs_ctl(void)
 	/* hint: 20.6.2 Processor-Based VM-Execution Controls */
 	/* hint: procbased_ctls and procbased_ctls2 */
 	// Dongli-Begin
-	procbased_ctls2_or |= SECONDARY_EXEC_ENABLE_EPT;
-	procbased_ctls2_or |= SECONDARY_EXEC_UNRESTRICTED_GUEST; 
+	procbased_ctls = 0x0;
+	procbased_ctls2 = 0x0;
+	//procbased_ctls |= SECONDARY_EXEC_ENABLE_EPT;
+	//procbased_ctls |= SECONDARY_EXEC_UNRESTRICTED_GUEST; 
+	procbased_ctls |= VMCS_PROC_BASED_VMEXEC_CTL_ACTIVESECCTL_BIT; 
+	procbased_ctls2 |= SECONDARY_EXEC_ENABLE_EPT;
+	procbased_ctls2 |= SECONDARY_EXEC_UNRESTRICTED_GUEST; 
+	//procbased_ctls2 |= VMCS_PROC_BASED_VMEXEC_CTL_ACTIVESECCTL_BIT; 
+
 	// Dongli-End
 
 	/* bug fix */
