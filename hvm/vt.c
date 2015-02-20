@@ -100,7 +100,11 @@ do_cpuid (void)
 	/* Hint: vt_write_general_reg(), add_ip()           */
 	if (la == 0xFeedCafe) {
 		/* Add your code here. */
-		cprintf("[VMM] start the Ex5!\n");
+		cprintf("[VMM] Emulate cpuid in hypervisor.\n");
+		oa = 0xDeadBeef;
+		vt_write_general_reg(GENERAL_REG_RAX, oa);
+		add_ip();
+		return;
 	}
 
 	ia = la;
